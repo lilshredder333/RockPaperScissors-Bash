@@ -6,13 +6,34 @@ puntos_usuario=0
 puntos_cpu=0
 marcador="CPU: $puntos_cpu vs $alias: $puntos_usuario"
 mensaje_final=""
+contador_rondas=0
 
-#Generamos la opción de la CPU
+#Generamos la opción random de la CPU
 function jugada_cpu(){
     opciones=("piedra", "papel", "tijera")
     jugada_cpu=${opciones[$((RANDOM % 3))]}
     
 }
+
+ #Generamos la opción amañada de la CPU
+ function jugadon_cpu(){
+
+    jugada_usuario=$1
+
+    if [[ $jugada_usuario = "piedra" ]]; then
+            jugada_cpu="papel"
+            
+
+            elif [[ $jugada_usuario = "papel" ]]; then
+
+                jugada_cpu="tijera"
+                
+        else 
+
+            jugada_cpu="piedra"
+            
+        fi
+ }
 
 #Funcion revisar ganador legal
 function quien_gana_legal(){
@@ -34,25 +55,11 @@ function quien_gana_legal(){
     
 }
 
-#Funcion revisar ganador legal
+#Funcion revisar ganador ilegal
 function quien_gana_ilegal(){
     
     puntos_usuario=$1
     puntos_cpu=$2
-
-    if [[ $jugada_usuario == "piedra" ]]; then
-        $jugada_cpu = "papel"
-           
-
-        elif [[ $jugada_usuario == "papel" ]]; then
-
-            $jugada_cpu = "tijera"
-            
-    else 
-
-        $jugada_cpu = "piedra"
-        
-    fi
 
     gana_cpu
 }
@@ -79,9 +86,6 @@ function empate(){
 }
 
 function modo_5rondas() {
-    
-    contador_rondas=0
-    
     
     echo "Hola "$alias", has elegido el modo de juego: Mejor de 5"
     
@@ -117,6 +121,7 @@ function modo_5rondas() {
 }
 
 function modo_infinito() {
+
     echo "Hola "$alias", has elegido el modo de juego: Modo infinito"
     
     marcador="CPU: $puntos_cpu vs $alias: $puntos_usuario"
@@ -188,8 +193,6 @@ function elegir_dificultad(){
     # desactivamos
     shopt -u nocasematch
 }
-
-
 
 #Inicio del juego
 echo "Bienvenido al juego de Piedra, Papel, Tijera"
