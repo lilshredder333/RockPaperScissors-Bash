@@ -60,8 +60,8 @@ function quien_gana_ilegal(){
     
     puntos_usuario=$1
     puntos_cpu=$2
+    
 
-    gana_cpu
 }
 
 function gana_cpu(){
@@ -164,7 +164,7 @@ function modo_imposible() {
         contador_rondas=$((contador_rondas + 1))
     done
     
-}
+}  
 
 function elegir_dificultad(){
     echo "Introduce tu alias:"
