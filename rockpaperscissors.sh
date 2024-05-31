@@ -64,15 +64,24 @@ function modo_5rondas() {
         echo "Elige tu jugada (piedra, papel, tijera): "
         read jugada_usuario
         
-        jugada_cpu=$(jugada_cpu)
-        echo "La CPU elige: $jugada_cpu"
+        #Control de errores
+        if [[ $jugada_usuario = 'papel' || $jugada_usuario = 'piedra' || $jugada_usuario = 'tijera' ]]; then
+
+            jugada_cpu=$(jugada_cpu)
+            echo "La CPU elige: $jugada_cpu"
         
-        resultado=$(quien_gana_legal $jugada_usuario $jugada_cpu)
-        echo $resultado
+            resultado=$(quien_gana_legal $jugada_usuario $jugada_cpu)
+            echo $resultado
         
-        actualizar_marcador $resultado
+            actualizar_marcador $resultado
         
-        contador_rondas=$((contador_rondas + 1))
+            contador_rondas=$((contador_rondas + 1))
+        
+        else 
+            echo "Por favor introduce una respuesta válida"
+            modo_5rondas
+        fi
+
     done
     
     if [[ $puntos_cpu -gt $puntos_usuario ]]; then
@@ -82,6 +91,10 @@ function modo_5rondas() {
     else
         echo "¡Fin del juego, empate!"
     fi
+    echo "Bienvenido de nuevo al juego de Piedra, Papel, Tijera - Pulsa Ctrl + C para salir del juego"
+    # reseto de contador
+    contador_rondas=0
+    elegir_dificultad
 }
 
 # Función para jugar en modo "Infinito"
@@ -93,15 +106,25 @@ function modo_infinito() {
         echo "Elige tu jugada (piedra, papel, tijera): "
         read jugada_usuario
         
-        jugada_cpu=$(jugada_cpu)
-        echo "La CPU elige: $jugada_cpu"
+        #Control de errores
+        if [[ $jugada_usuario = 'papel' || $jugada_usuario = 'piedra' || $jugada_usuario = 'tijera' ]]; then
+
+            jugada_cpu=$(jugada_cpu)
+            echo "La CPU elige: $jugada_cpu"
         
-        resultado=$(quien_gana_legal $jugada_usuario $jugada_cpu)
-        echo $resultado
+            resultado=$(quien_gana_legal $jugada_usuario $jugada_cpu)
+            echo $resultado
         
-        actualizar_marcador $resultado
+            actualizar_marcador $resultado
         
-        contador_rondas=$((contador_rondas + 1))
+            contador_rondas=$((contador_rondas + 1))
+        
+        else 
+            echo "Por favor introduce una respuesta válida"
+            modo_infinito
+        fi
+        
+       
     done
 }
 
@@ -113,16 +136,25 @@ function modo_imposible() {
         echo "Ronda $((contador_rondas + 1)) - $marcador"
         echo "Elige tu jugada (piedra, papel, tijera): "
         read jugada_usuario
+
+        #Control de errores
+        if [[ $jugada_usuario = 'papel' || $jugada_usuario = 'piedra' || $jugada_usuario = 'tijera' ]]; then
+
+            jugada_cpu=$(jugadon_cpu $jugada_usuario)
+            echo "La CPU elige: $jugada_cpu"
         
-        jugada_cpu=$(jugadon_cpu $jugada_usuario)
-        echo "La CPU elige: $jugada_cpu"
+            puntos_cpu=$((puntos_cpu + 1))
+            marcador="CPU: $puntos_cpu vs $alias: $puntos_usuario"
+            echo $marcador
         
-        puntos_cpu=$((puntos_cpu + 1))
-        marcador="CPU: $puntos_cpu vs $alias: $puntos_usuario"
-        echo $marcador
-        
-        contador_rondas=$((contador_rondas + 1))
+            contador_rondas=$((contador_rondas + 1))
+        else 
+            echo "Por favor introduce una respuesta válida"
+            modo_imposible
+        fi
+
     done
+
 }
 
 # Función para elegir la dificultad
